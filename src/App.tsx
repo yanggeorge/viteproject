@@ -1,8 +1,9 @@
 import { Link, RouteObject, useRoutes } from 'react-router-dom';
-import Index from './pages/Index';
 import RawHTMLWithCSS from './pages/examples/rawHTMLWithCSS';
 import Test from './pages/examples/Test';
+import Index from './pages/Index';
 import Layout1 from './pages/layouts/Layout1';
+import Hep from './pages/hep/Hep';
 
 function Home() {
   return (
@@ -20,6 +21,9 @@ function Home() {
         <li>
           <Link to="/RawHTMLWithCSS">RawHTMLWithCSS</Link>
         </li>
+        <li>
+          <Link to="/Hep">Hep</Link>
+        </li>
       </ul>
     </div>
   );
@@ -31,6 +35,7 @@ const routes: RouteObject[] = [
   { path: '/test', element: <Test /> },
   { path: '/index', element: <Index /> },
   { path: '/RawHTMLWithCSS', element: <RawHTMLWithCSS /> },
+  { path: '/Hep', element: <Hep /> },
 
   { path: '*', element: <NoMatch /> },
 ];
