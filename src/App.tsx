@@ -4,6 +4,7 @@ import Test from './pages/examples/Test';
 import Index from './pages/Index';
 import Layout1 from './pages/layouts/Layout1';
 import UpgradeForm from './pages/hep/UpgradeForm';
+import Navigation from './pages/hep/Navigation';
 
 function Home() {
   return (
@@ -24,6 +25,9 @@ function Home() {
         <li>
           <Link to="/UpgradeForm">UpgradeForm</Link>
         </li>
+        <li>
+          <Link to="/Navigation">Navigation</Link>
+        </li>
       </ul>
     </div>
   );
@@ -35,11 +39,11 @@ const routes: RouteObject[] = [
   { path: '/test', element: <Test /> },
   { path: '/index', element: <Index /> },
   { path: '/RawHTMLWithCSS', element: <RawHTMLWithCSS /> },
+  { path: '/Navigation', element: <Navigation /> },
   {
     path: '/UpgradeForm',
     element: <UpgradeForm />,
   },
-
   { path: '*', element: <NoMatch /> },
 ];
 

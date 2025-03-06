@@ -7,7 +7,11 @@
     "dev": "vite --host",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prettier-format": "run-script-os",
+    "prettier-format:win32": "prettier --config .prettierrc \"./src/**/*.{js,mjs,cjs,ts,tsx,css}\" --write",
+    "prettier-format:darwin:linux": "prettier --config .prettierrc 'src/**/*.{js,mjs,cjs,ts,tsx,css}' --write",
+    "prettier-format:default": "prettier --config .prettierrc 'src/**/*.{js,mjs,cjs,ts,tsx,css}' --write"
   },
   "dependencies": {
     "@fortawesome/react-fontawesome": "^0.2.2",
@@ -22,6 +26,7 @@
     "owl.carousel": "^2.3.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-icons": "^5.5.0",
     "react-router-dom": "^7.2.0"
   },
   "devDependencies": {
@@ -36,6 +41,7 @@
     "globals": "^15.14.0",
     "postcss": "^8.4.49",
     "prettier": "^3.3.3",
+    "run-script-os": "^1.1.6",
     "tailwindcss": "^4.0.9",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.18.2",
