@@ -45,7 +45,7 @@ function Navigation() {
   };
 
   return (
-    <div>
+    <div id="nav-bar">
       <div id="md-navigation-container" className="hidden md:flex justify-between">
         <div id="logo" className="flex gap-2 py-6 px-6">
           <img src="/static/logo-old.png" alt="logo" className="w-16 h-16" />
