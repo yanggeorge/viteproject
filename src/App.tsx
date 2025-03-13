@@ -1,4 +1,5 @@
-import { Link, RouteObject, useRoutes } from 'react-router-dom';
+import type { RouteObject } from 'react-router-dom';
+import { Link, useRoutes } from 'react-router-dom';
 import RawHTMLWithCSS from './pages/examples/rawHTMLWithCSS';
 import Test from './pages/examples/Test';
 import Index from './pages/Index';
