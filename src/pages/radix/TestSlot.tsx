@@ -47,7 +47,11 @@ export default function TestSlot() {
         </a>
       </Button2>
 
-      <Button2 asChild={false} leftElement={<span>Slottable</span>} rightElement={<span>asChild=false</span>}>
+      <Button2
+        asChild={false}
+        leftElement={<span>Left element "Slottable"</span>}
+        rightElement={<span> right element "asChild=false"</span>}
+      >
         <a href="/contact" className="border bg-blue-50">
           Contact
         </a>
