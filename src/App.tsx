@@ -7,7 +7,8 @@ import Layout1 from './pages/layouts/Layout1';
 import UpgradeForm from './pages/hep/UpgradeForm';
 import Navigation from './pages/hep/Navigation';
 import TestForm from './pages/examples/TestForm';
-import TestComposeRefs from './pages/examples/TestComposeRefs';
+import TestComposeRefs from './pages/radix/TestComposeRefs';
+import TestSlot from './pages/radix/TestSlot';
 
 function Home() {
   return (
@@ -37,6 +38,9 @@ function Home() {
         <li>
           <Link to="/TestComposeRefs">TestComposeRefs</Link>
         </li>
+        <li>
+          <Link to="/TestSlot">TestSlot</Link>
+        </li>
       </ul>
     </div>
   );
@@ -52,6 +56,7 @@ const routes: RouteObject[] = [
   { path: '/UpgradeForm', element: <UpgradeForm /> },
   { path: '/TestForm', element: <TestForm /> },
   { path: '/TestComposeRefs', element: <TestComposeRefs /> },
+  { path: '/TestSlot', element: <TestSlot /> },
   { path: '*', element: <NoMatch /> },
 ];
 
