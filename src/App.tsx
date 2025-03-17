@@ -1,17 +1,8 @@
 import type { RouteObject } from 'react-router-dom';
 import { Link, useRoutes } from 'react-router-dom';
-import RawHTMLWithCSS from './pages/examples/rawHTMLWithCSS';
-import Test from './pages/examples/Test';
-import Index from './pages/Index';
-import Layout1 from './pages/layouts/Layout1';
-import UpgradeForm from './pages/hep/UpgradeForm';
-import Navigation from './pages/hep/Navigation';
-import TestForm from './pages/examples/TestForm';
-import TestComposeRefs from './pages/radix/TestComposeRefs';
-import TestSlot from './pages/radix/TestSlot';
-import TestPrimitive from './pages/radix/TestPrimitive';
-import TestStateMachine from './pages/radix/TestStateMachine';
+import { lazy } from 'react';
 
+// Keep Home component as is since it's used directly
 function Home() {
   return (
     <div>
@@ -49,10 +40,27 @@ function Home() {
         <li>
           <Link to="/TestStateMachine">TestStateMachine</Link>
         </li>
+        <li>
+          <Link to="/TestToggle">TestToggle</Link>
+        </li>
       </ul>
     </div>
   );
 }
+
+// Define lazy-loaded components
+const RawHTMLWithCSS = lazy(() => import('./pages/examples/rawHTMLWithCSS'));
+const Test = lazy(() => import('./pages/examples/Test'));
+const Index = lazy(() => import('./pages/Index'));
+const Layout1 = lazy(() => import('./pages/layouts/Layout1'));
+const UpgradeForm = lazy(() => import('./pages/hep/UpgradeForm'));
+const Navigation = lazy(() => import('./pages/hep/Navigation'));
+const TestForm = lazy(() => import('./pages/examples/TestForm'));
+const TestComposeRefs = lazy(() => import('./pages/radix/TestComposeRefs'));
+const TestSlot = lazy(() => import('./pages/radix/TestSlot'));
+const TestPrimitive = lazy(() => import('./pages/radix/TestPrimitive'));
+const TestStateMachine = lazy(() => import('./pages/radix/TestStateMachine'));
+const TestToggle = lazy(() => import('./pages/radix/TestToggle'));
 
 const routes: RouteObject[] = [
   { path: '/', element: <Home /> },
@@ -67,6 +75,7 @@ const routes: RouteObject[] = [
   { path: '/TestSlot', element: <TestSlot /> },
   { path: '/TestPrimitive', element: <TestPrimitive /> },
   { path: '/TestStateMachine', element: <TestStateMachine /> },
+  { path: '/TestToggle', element: <TestToggle /> },
   { path: '*', element: <NoMatch /> },
 ];
 

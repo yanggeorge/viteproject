@@ -1,4 +1,7 @@
-import { OFF, WARN, ERROR } from './constants.js';
+export const ecmaVersion = 2022;
+export const OFF = 0;
+export const WARN = 1;
+export const ERROR = 2;
 
 export const tsRules = {
   '@typescript-eslint/no-explicit-any': 'off',
