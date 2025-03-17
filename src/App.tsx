@@ -10,6 +10,7 @@ import TestForm from './pages/examples/TestForm';
 import TestComposeRefs from './pages/radix/TestComposeRefs';
 import TestSlot from './pages/radix/TestSlot';
 import TestPrimitive from './pages/radix/TestPrimitive';
+import TestStateMachine from './pages/radix/TestStateMachine';
 
 function Home() {
   return (
@@ -45,6 +46,9 @@ function Home() {
         <li>
           <Link to="/TestPrimitive">TestPrimitive</Link>
         </li>
+        <li>
+          <Link to="/TestStateMachine">TestStateMachine</Link>
+        </li>
       </ul>
     </div>
   );
@@ -62,6 +66,7 @@ const routes: RouteObject[] = [
   { path: '/TestComposeRefs', element: <TestComposeRefs /> },
   { path: '/TestSlot', element: <TestSlot /> },
   { path: '/TestPrimitive', element: <TestPrimitive /> },
+  { path: '/TestStateMachine', element: <TestStateMachine /> },
   { path: '*', element: <NoMatch /> },
 ];
 
