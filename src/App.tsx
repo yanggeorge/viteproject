@@ -1,6 +1,7 @@
+import { lazy } from 'react';
 import type { RouteObject } from 'react-router-dom';
 import { Link, useRoutes } from 'react-router-dom';
-import { lazy } from 'react';
+import Flow1 from './pages/flow/f1/Flow1';
 
 // Keep Home component as is since it's used directly
 function Home() {
@@ -43,6 +44,9 @@ function Home() {
         <li>
           <Link to="/TestToggle">TestToggle</Link>
         </li>
+        <li>
+          <Link to="/Flow1">xyflow Flow1</Link>
+        </li>
       </ul>
     </div>
   );
@@ -76,6 +80,7 @@ const routes: RouteObject[] = [
   { path: '/TestPrimitive', element: <TestPrimitive /> },
   { path: '/TestStateMachine', element: <TestStateMachine /> },
   { path: '/TestToggle', element: <TestToggle /> },
+  { path: '/Flow1', element: <Flow1 /> },
   { path: '*', element: <NoMatch /> },
 ];
 

@@ -18,6 +18,11 @@ export default tseslint.config(
         ...globals.browser, // 保留浏览器环境的全局变量
       },
     },
+    settings: {
+      react: {
+        version: 'detect', // 自动检测 React 版本
+      },
+    },
     plugins: {
       react: reactPlugin,
       'react-hooks': reactHooks,
