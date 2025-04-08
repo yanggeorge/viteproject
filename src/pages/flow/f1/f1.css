@@ -11,3 +11,15 @@
   color: #777;
   font-size: 12px;
 }
+
+.react-flow__handle.connectingto {
+  background: #ff6060;
+}
+
+.react-flow__handle.valid {
+  background: #55dd99;
+}
+
+.react-flow__attribution a {
+  display: none;
+}

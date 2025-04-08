@@ -21,7 +21,6 @@ const useFlowStore = create<FlowState>((set, get) => ({
     });
   },
   onConnect: (connection) => {
-    console.log(connection);
     const edge: Edge = {
       id: [
         `e${connection.source}`,

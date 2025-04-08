@@ -1,4 +1,4 @@
-import { BaseEdge, EdgeLabelRenderer, getStraightPath, useReactFlow } from '@xyflow/react';
+import { BaseEdge, EdgeLabelRenderer, getStraightPath } from '@xyflow/react';
 import useFlowStore from './flowStore';
 
 interface CustomEdgeProps {
@@ -29,7 +29,9 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }: C
             pointerEvents: 'all',
           }}
           className="nodrag nopan"
-          onClick={() => {
+          onClick={(evt) => {
+            console.log(evt);
+
             setEdges((es) => es.filter((e) => e.id !== id));
           }}
         >
