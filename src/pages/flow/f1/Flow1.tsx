@@ -9,6 +9,7 @@ import { TextUpdaterNode } from './TextUpdaterNode';
 import CustomEdge from './CustomEdge';
 import KeyListener from './keyPress';
 import { MagicWandIcon } from '@radix-ui/react-icons';
+import { TriangleNode } from './TriangleNode';
 
 const selector = (state: FlowState) => ({
   nodes: state.nodes,
@@ -20,6 +21,7 @@ const selector = (state: FlowState) => ({
 
 const nodeTypes = {
   textUpdater: TextUpdaterNode,
+  triangle: TriangleNode,
 };
 
 const edgeTypes = {

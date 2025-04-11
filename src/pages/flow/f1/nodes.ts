@@ -20,4 +20,15 @@ export const initialNodes = [
     data: { label: 'Output' },
     position: { x: 250, y: 250 },
   },
+  {
+    id: '4',
+    type: 'triangle',
+    position: { x: 250, y: 5 },
+    data: {
+      label: '三角形节点',
+      width: 180,
+      height: 150,
+      fill: '#9CBBFF',
+    },
+  },
 ] as FlowNode[];
