@@ -4,9 +4,7 @@ import './f1.css';
 
 const handleStyle = { left: 10 };
 
-export function TextUpdaterNode({ data, isConnectable }: { data: any; isConnectable: boolean }) {
-  console.log(data);
-
+export function TextUpdaterNode({ isConnectable }: { isConnectable: boolean }) {
   const onChange = useCallback((evt: React.ChangeEvent<HTMLInputElement>) => {
     console.log(evt.target.value);
   }, []);

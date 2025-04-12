@@ -1,13 +1,12 @@
 import { type Edge, type Node, type OnNodesChange, type OnEdgesChange, type OnConnect } from '@xyflow/react';
 
-export type FlowNode = Node;
-
 export type FlowState = {
-  nodes: FlowNode[];
+  nodes: Node[];
   edges: Edge[];
-  onNodesChange: OnNodesChange<FlowNode>;
+  multiNodesSelected: boolean;
+  onNodesChange: OnNodesChange<Node>;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  setNodes: (nodes: FlowNode[]) => void;
+  setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[] | ((edges: Edge[]) => Edge[])) => void;
 };

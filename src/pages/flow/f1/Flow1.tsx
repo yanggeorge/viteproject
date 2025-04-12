@@ -14,6 +14,7 @@ import { TriangleNode } from './TriangleNode';
 const selector = (state: FlowState) => ({
   nodes: state.nodes,
   edges: state.edges,
+  multiNodesSelected: state.multiNodesSelected,
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
@@ -29,7 +30,17 @@ const edgeTypes = {
 };
 
 function Flow1() {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useFlowStore(useShallow(selector));
+  const { nodes, edges, multiNodesSelected, onNodesChange, onEdgesChange, onConnect } = useFlowStore(
+    useShallow(selector),
+  );
+
+  const onNodeDragStart = (event: React.MouseEvent, node: any) => {
+    if (multiNodesSelected) {
+      return;
+    }
+    console.log('onNodeDragStart', event, node);
+  };
+
   return (
     <div style={{ width: '800px', height: '600px' }}>
       <ReactFlow
@@ -45,7 +56,8 @@ function Flow1() {
         fitView
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
-        debug={true} // 显示各种事件的信息
+        onNodeDragStart={onNodeDragStart}
+        debug={false} // 显示各种事件的信息
       >
         <Controls className="bg-blue-500">
           <ControlButton title="magic wand" onClick={() => alert('Something magical just happened. ✨')}>
