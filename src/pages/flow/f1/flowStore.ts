@@ -50,7 +50,9 @@ const useFlowStore = create<FlowState>()(
         });
       },
       setNodes: (nodes) => {
-        set({ nodes });
+        set((state) => ({
+          nodes: typeof nodes === 'function' ? nodes(state.nodes) : nodes,
+        }));
       },
       setEdges: (edges) => {
         set((state) => ({

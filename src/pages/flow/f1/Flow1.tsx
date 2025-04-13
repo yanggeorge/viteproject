@@ -1,15 +1,26 @@
-import { Background, BackgroundVariant, ControlButton, Controls, MiniMap, Panel, ReactFlow } from '@xyflow/react';
+import {
+  Background,
+  BackgroundVariant,
+  ControlButton,
+  Controls,
+  MiniMap,
+  Panel,
+  ReactFlow,
+  useStore,
+} from '@xyflow/react';
 import { useShallow } from 'zustand/react/shallow';
 
 import '@xyflow/react/dist/style.css';
 
-import useFlowStore from './flowStore';
-import type { FlowNode, FlowState, SnappingResult } from './types';
-import { TextUpdaterNode } from './TextUpdaterNode';
-import CustomEdge from './CustomEdge';
-import KeyListener from './keyPress';
 import { MagicWandIcon } from '@radix-ui/react-icons';
+import type { JSX } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import CustomEdge from './CustomEdge';
+import useFlowStore from './flowStore';
+import KeyListener from './keyPress';
+import { TextUpdaterNode } from './TextUpdaterNode';
 import { TriangleNode } from './TriangleNode';
+import type { FlowNode, FlowState, SnappingResult } from './types';
 
 const selector = (state: FlowState) => ({
   nodes: state.nodes,
@@ -53,11 +64,11 @@ const calculateSnapping = (draggedNode: FlowNode, allNodes: FlowNode[], snapThre
   // Calculate dragged node boundaries
   const draggedNodeBounds = {
     left: draggedNode.position.x,
-    right: draggedNode.position.x + (targetNode.width ?? 0),
+    right: draggedNode.position.x + (targetNode.measured?.width ?? 0),
     top: draggedNode.position.y,
-    bottom: draggedNode.position.y + (targetNode.height ?? 0),
-    width: targetNode.width ?? 0,
-    height: targetNode.height ?? 0,
+    bottom: draggedNode.position.y + (targetNode.measured?.height ?? 0),
+    width: targetNode.measured?.width ?? 0,
+    height: targetNode.measured?.height ?? 0,
   };
 
   // Initialize minimum distances
@@ -68,14 +79,15 @@ const calculateSnapping = (draggedNode: FlowNode, allNodes: FlowNode[], snapThre
   return allNodes
     .filter((node) => node.id !== targetNode.id)
     .reduce((acc, otherNode) => {
+      console.log('🚀 ~ .reduce ~ otherNode:', otherNode);
       // Calculate other node boundaries
       const otherNodeBounds = {
         left: otherNode.position.x,
-        right: otherNode.position.x + (otherNode.width ?? 0),
+        right: otherNode.position.x + (otherNode.measured?.width ?? 0),
         top: otherNode.position.y,
-        bottom: otherNode.position.y + (otherNode.height ?? 0),
-        width: otherNode.width ?? 0,
-        height: otherNode.height ?? 0,
+        bottom: otherNode.position.y + (otherNode.measured?.height ?? 0),
+        width: otherNode.measured?.width ?? 0,
+        height: otherNode.measured?.height ?? 0,
       };
 
       // --- Vertical alignments (X-axis) ---
@@ -150,6 +162,81 @@ const calculateSnapping = (draggedNode: FlowNode, allNodes: FlowNode[], snapThre
     }, result);
 };
 
+/**
+ * SnapLineRenderer 组件 - 使用 Canvas 绘制节点对齐辅助线
+ *
+ * @param {Object} props - 组件属性
+ * @param {number|undefined} props.horizontal - 水平辅助线的 y 坐标
+ * @param {number|undefined} props.vertical - 垂直辅助线的 x 坐标
+ * @returns {JSX.Element} - Canvas 渲染的辅助线
+ */
+function SnapLineRenderer({ horizontal, vertical }: { horizontal?: number; vertical?: number }): JSX.Element {
+  // 从 React Flow store 获取视口尺寸和变换信息
+  const { width, height, transform } = useStore((store) => ({
+    width: store.width,
+    height: store.height,
+    transform: store.transform,
+  }));
+  // Canvas 引用
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // 当辅助线位置、视口尺寸或变换变化时，重新绘制
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext('2d');
+
+    if (!ctx || !canvas) return;
+
+    // 适配高分辨率屏幕
+    const pixelRatio = window.devicePixelRatio;
+    canvas.width = width * pixelRatio;
+    canvas.height = height * pixelRatio;
+
+    // 缩放 canvas 以适应设备像素比
+    ctx.scale(pixelRatio, pixelRatio);
+
+    // 清除之前的绘制内容
+    ctx.clearRect(0, 0, width, height);
+
+    // 设置辅助线样式
+    ctx.strokeStyle = '#0041d0';
+
+    // 绘制垂直辅助线 (如果存在)
+    if (typeof vertical === 'number') {
+      // 应用视口变换 [x, y, scale]
+      const transformedX = vertical * transform[2] + transform[0];
+      ctx.beginPath();
+      ctx.moveTo(transformedX, 0);
+      ctx.lineTo(transformedX, height);
+      ctx.stroke();
+    }
+
+    // 绘制水平辅助线 (如果存在)
+    if (typeof horizontal === 'number') {
+      // 应用视口变换 [x, y, scale]
+      const transformedY = horizontal * transform[2] + transform[1];
+      ctx.beginPath();
+      ctx.moveTo(0, transformedY);
+      ctx.lineTo(width, transformedY);
+      ctx.stroke();
+    }
+  }, [width, height, transform, horizontal, vertical]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="react-flow__snap-lines-canvas"
+      style={{
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        zIndex: 10,
+        pointerEvents: 'none',
+      }}
+    />
+  );
+}
+
 function Flow1() {
   const { nodes, edges, multiNodesSelected, onNodesChange, onEdgesChange, onConnect } = useFlowStore(
     useShallow(selector),
@@ -162,16 +249,39 @@ function Flow1() {
     console.log('onNodeDragStart', event, node, nodes);
   };
 
-  const onNodeDrag = (_event: React.MouseEvent, node: FlowNode) => {
-    if (multiNodesSelected) {
-      return;
-    }
-    const snapThreshold = 5;
-    const snappingResult = calculateSnapping(node, nodes, snapThreshold);
-    if (snappingResult.horizontal !== undefined || snappingResult.vertical !== undefined) {
-      console.log('Snapping Result:', snappingResult);
-    }
-  };
+  const [snapLines, setSnapLines] = useState<SnappingResult>({
+    horizontal: undefined,
+    vertical: undefined,
+    snapPosition: { x: undefined, y: undefined },
+  });
+
+  const onNodeDrag = useCallback(
+    (_event: React.MouseEvent, draggedNode: FlowNode) => {
+      if (multiNodesSelected) {
+        return;
+      }
+
+      const snapThreshold = 5;
+      // Make sure `nodes` here refers to the current state from useNodesState
+      const allNodes = nodes;
+      const snappingResult = calculateSnapping(draggedNode, allNodes, snapThreshold);
+
+      // Update visual snap lines state regardless
+      setSnapLines(snappingResult);
+      draggedNode.position.x = snappingResult.snapPosition.x ?? draggedNode.position.x;
+      draggedNode.position.y = snappingResult.snapPosition.y ?? draggedNode.position.y;
+    },
+    [nodes, multiNodesSelected, setSnapLines], // Add dependencies
+  );
+
+  // You might also want to clear snap lines when dragging stops
+  const onNodeDragStop = useCallback(() => {
+    setSnapLines({
+      horizontal: undefined,
+      vertical: undefined,
+      snapPosition: { x: undefined, y: undefined },
+    });
+  }, [setSnapLines]);
 
   return (
     <div style={{ width: '800px', height: '600px' }}>
@@ -189,6 +299,7 @@ function Flow1() {
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         onNodeDragStart={onNodeDragStart}
+        onNodeDragStop={onNodeDragStop}
         onNodeDrag={onNodeDrag}
         debug={false} // 显示各种事件的信息
         elevateEdgesOnSelect={true}
@@ -204,6 +315,7 @@ function Flow1() {
         <Panel position="top-left" className="bg-white border p-1 sh">
           top-left
         </Panel>
+        <SnapLineRenderer horizontal={snapLines.horizontal} vertical={snapLines.vertical} />
       </ReactFlow>
       <KeyListener />
     </div>
