@@ -1,12 +1,22 @@
 import { type Edge, type Node, type OnNodesChange, type OnEdgesChange, type OnConnect } from '@xyflow/react';
 
+export type FlowNode = Node;
 export type FlowState = {
-  nodes: Node[];
+  nodes: FlowNode[];
   edges: Edge[];
   multiNodesSelected: boolean;
-  onNodesChange: OnNodesChange<Node>;
+  onNodesChange: OnNodesChange<FlowNode>;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  setNodes: (nodes: Node[]) => void;
+  setNodes: (nodes: FlowNode[]) => void;
   setEdges: (edges: Edge[] | ((edges: Edge[]) => Edge[])) => void;
 };
+
+export interface SnappingResult {
+  horizontal: number | undefined;
+  vertical: number | undefined;
+  snapPosition: {
+    x: number | undefined;
+    y: number | undefined;
+  };
+}
