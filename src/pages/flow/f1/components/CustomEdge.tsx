@@ -1,5 +1,5 @@
 import { BaseEdge, EdgeLabelRenderer, getStraightPath } from '@xyflow/react';
-import useFlowStore from './flowStore';
+import useFlowStore from '../stores/flowStore';
 
 interface CustomEdgeProps {
   id: string;

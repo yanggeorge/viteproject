@@ -10,6 +10,9 @@ export type FlowState = {
   onConnect: OnConnect;
   setNodes: (nodes: FlowNode[] | ((nodes: FlowNode[]) => FlowNode[])) => void;
   setEdges: (edges: Edge[] | ((edges: Edge[]) => Edge[])) => void;
+  getNodes: () => FlowNode[];
+  getEdges: () => Edge[];
+  getMultiNodesSelected: () => boolean;
 };
 
 export interface SnappingResult {
@@ -20,3 +23,13 @@ export interface SnappingResult {
     y: number | undefined;
   };
 }
+
+export type CopyState = {
+  copyNodes: FlowNode[];
+  copyEdges: Edge[];
+  setCopyNodes: (nodes: FlowNode[] | ((nodes: FlowNode[]) => FlowNode[])) => void;
+  setCopyEdges: (edges: Edge[] | ((edges: Edge[]) => Edge[])) => void;
+  getCopyNodes: () => FlowNode[];
+  getCopyEdges: () => Edge[];
+};
+export { Edge, Node };

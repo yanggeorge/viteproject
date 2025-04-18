@@ -1,11 +1,10 @@
 import type { Edge } from '@xyflow/react';
 import { addEdge, applyEdgeChanges, applyNodeChanges } from '@xyflow/react';
 import { create } from 'zustand';
-
-import { initialEdges } from './edges';
-import { initialNodes } from './nodes';
-import { type FlowState } from './types';
 import { devtools } from 'zustand/middleware';
+import { initialEdges } from '../edges';
+import { initialNodes } from '../nodes';
+import { type FlowState } from '../types';
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
 const useFlowStore = create<FlowState>()(
@@ -59,6 +58,8 @@ const useFlowStore = create<FlowState>()(
           edges: typeof edges === 'function' ? edges(state.edges) : edges,
         }));
       },
+      getNodes: () => get().nodes,
+      getEdges: () => get().edges,
     }),
     {
       name: 'flowStore',

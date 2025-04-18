@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { Handle, Position } from '@xyflow/react';
-import './f1.css';
+import '../f1.css';
 
 const handleStyle = { left: 10 };
 
