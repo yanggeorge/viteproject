@@ -32,4 +32,21 @@ export type CopyState = {
   getCopyNodes: () => FlowNode[];
   getCopyEdges: () => Edge[];
 };
-export { Edge, Node };
+
+export interface HistoryConfig {
+  maxHistorySize: number;
+  enableShortcuts: boolean;
+}
+
+export interface HistoryHookResult {
+  undo: () => void;
+  redo: () => void;
+  takeSnapshot: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
+}
+
+export interface Snapshot {
+  nodes: Node[];
+  edges: Edge[];
+}

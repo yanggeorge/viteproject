@@ -19,6 +19,8 @@ import useFlowStore from './stores/flowStore';
 import { useCopyPaste } from './hooks/useCopyPaste';
 import { useSnapLines } from './hooks/useSnapLines';
 import type { FlowState } from './types';
+import { useHistory } from './hooks/useHistory';
+import { useCallback } from 'react';
 
 const nodeTypes = {
   textUpdater: TextUpdaterNode,
@@ -50,18 +52,29 @@ function Flow1() {
   // 是否有缓冲区内容
   const hasBufferedContent = copyNodes.length > 0;
 
+  const { undo, redo, canUndo, canRedo, takeSnapshot } = useHistory();
+
+  const onNodeDragStart = useCallback(() => takeSnapshot(), [takeSnapshot]);
+  const onSelectionDragStart = useCallback(() => takeSnapshot(), [takeSnapshot]);
+  const onNodesDelete = useCallback(() => takeSnapshot(), [takeSnapshot]);
+  const onEdgesDelete = useCallback(() => takeSnapshot(), [takeSnapshot]);
+
   return (
     <div style={FLOW_CONTAINER_STYLE}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodeDrag={onNodeDrag}
         onNodeDragStop={onNodeDragStop}
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
+        onNodeDragStart={onNodeDragStart}
+        onSelectionDragStart={onSelectionDragStart}
+        onNodesDelete={onNodesDelete}
+        onEdgesDelete={onEdgesDelete}
         fitView
         elevateEdgesOnSelect
         elevateNodesOnSelect
@@ -83,6 +96,14 @@ function Flow1() {
           </button>
           <button className="button" onClick={() => paste({ x: 0, y: 0 })} disabled={!hasBufferedContent}>
             Paste
+          </button>
+        </Panel>
+        <Panel position="bottom-center" className="flex">
+          <button disabled={canUndo} className="button" onClick={undo}>
+            <span>⤴️</span> undo
+          </button>
+          <button disabled={canRedo} className="button" onClick={redo}>
+            redo <span>⤵️</span>
           </button>
         </Panel>
       </ReactFlow>

@@ -60,6 +60,7 @@ const useFlowStore = create<FlowState>()(
       },
       getNodes: () => get().nodes,
       getEdges: () => get().edges,
+      getMultiNodesSelected: () => get().multiNodesSelected,
     }),
     {
       name: 'flowStore',
