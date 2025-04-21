@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { useShallow } from 'zustand/react/shallow';
 import { defaultConfig } from '../constants';
 import useFlowStore from '../stores/flowStore';
 import type { FlowState, HistoryConfig, HistoryHookResult } from '../types';
-import { useShallow } from 'zustand/react/shallow';
 
 const selector = (state: FlowState) => ({
   undoStack: state.undoStack,
@@ -17,22 +17,8 @@ export const useHistory = ({
 }: Partial<HistoryConfig> = defaultConfig): HistoryHookResult => {
   const { undoStack, redoStack, takeSnapshot, undo, redo } = useFlowStore(useShallow(selector));
 
-  useEffect(() => {
-    if (!enableShortcuts) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'z' && (event.ctrlKey || event.metaKey)) {
-        if (event.shiftKey) {
-          redo();
-        } else {
-          undo();
-        }
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [undo, redo, enableShortcuts]);
+  useHotkeys('meta+z, ctrl+z', undo, { enabled: enableShortcuts, preventDefault: true });
+  useHotkeys('shift+meta+z, shift+ctrl+z', redo, { enabled: enableShortcuts, preventDefault: true });
 
   return {
     undo,

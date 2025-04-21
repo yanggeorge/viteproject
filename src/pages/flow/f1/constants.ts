@@ -5,6 +5,6 @@ export const FLOW_CONTAINER_STYLE = { width: '800px', height: '600px' };
 
 // 默认配置
 export const defaultConfig: HistoryConfig = {
-  maxHistorySize: 100,
+  maxHistorySize: 50,
   enableShortcuts: true,
 };
