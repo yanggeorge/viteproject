@@ -11,14 +11,22 @@ const createCopyStoreSlice: StateCreator<CopyState, [['zustand/immer', never], [
   copyNodes: [],
   copyEdges: [],
   setCopyNodes: (nodes) => {
-    set((state) => ({
-      copyNodes: typeof nodes === 'function' ? nodes(state.copyNodes) : nodes,
-    }));
+    set(
+      (state) => ({
+        copyNodes: typeof nodes === 'function' ? nodes(state.copyNodes) : nodes,
+      }),
+      undefined,
+      'setCopyNodes',
+    );
   },
   setCopyEdges: (edges) => {
-    set((state) => ({
-      copyEdges: typeof edges === 'function' ? edges(state.copyEdges) : edges,
-    }));
+    set(
+      (state) => ({
+        copyEdges: typeof edges === 'function' ? edges(state.copyEdges) : edges,
+      }),
+      undefined,
+      'setCopyEdges',
+    );
   },
   getCopyNodes: () => get().copyNodes,
   getCopyEdges: () => get().copyEdges,

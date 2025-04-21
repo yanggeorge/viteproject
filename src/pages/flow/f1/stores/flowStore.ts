@@ -23,16 +23,24 @@ const createFlowSlice: StateCreator<FlowState, [['zustand/immer', never], ['zust
     const updatedNodes = applyNodeChanges(changes, get().nodes); // 更新后的节点
     const selectedNodes = updatedNodes.filter((node) => node.selected);
 
-    set({
-      nodes: updatedNodes,
-      multiNodesSelected: selectedNodes.length > 1, // 基于更新后的节点判断
-    });
+    set(
+      {
+        nodes: updatedNodes,
+        multiNodesSelected: selectedNodes.length > 1, // 基于更新后的节点判断
+      },
+      undefined,
+      'onNodesChange', // 使用 'onNodesChange' 作为动作类型
+    );
   },
 
   onEdgesChange: (changes) => {
-    set({
-      edges: applyEdgeChanges(changes, get().edges),
-    });
+    set(
+      {
+        edges: applyEdgeChanges(changes, get().edges),
+      },
+      undefined,
+      'onEdgesChange',
+    );
   },
 
   onConnect: (connection) => {
@@ -50,9 +58,13 @@ const createFlowSlice: StateCreator<FlowState, [['zustand/immer', never], ['zust
       targetHandle: connection.targetHandle,
       type: 'custom-edge',
     };
-    set({
-      edges: addEdge(edge, get().edges),
-    });
+    set(
+      {
+        edges: addEdge(edge, get().edges),
+      },
+      undefined,
+      'onConnect',
+    );
   },
   setNodes: (nodes) => {
     set((state) => ({
@@ -73,33 +85,45 @@ const createFlowSlice: StateCreator<FlowState, [['zustand/immer', never], ['zust
   redoStack: [],
   takeSnapshot: () => {
     const { undoStack, nodes, edges } = get();
-    set({
-      undoStack: [...undoStack.slice(undoStack.length - maxHistorySize + 1, undoStack.length), { nodes, edges }],
-      redoStack: [],
-    });
+    set(
+      {
+        undoStack: [...undoStack.slice(undoStack.length - maxHistorySize + 1, undoStack.length), { nodes, edges }],
+        redoStack: [],
+      },
+      undefined,
+      'takeSnapshot',
+    );
   },
   undo: () => {
     const { undoStack, redoStack, nodes, edges } = get();
     const snapshot = undoStack[undoStack.length - 1];
     if (snapshot) {
-      set({
-        undoStack: undoStack.slice(0, undoStack.length - 1),
-        redoStack: [...redoStack, { nodes, edges }],
-        nodes: snapshot.nodes,
-        edges: snapshot.edges,
-      });
+      set(
+        {
+          undoStack: undoStack.slice(0, undoStack.length - 1),
+          redoStack: [...redoStack, { nodes, edges }],
+          nodes: snapshot.nodes,
+          edges: snapshot.edges,
+        },
+        undefined,
+        'undo',
+      );
     }
   },
   redo: () => {
     const { redoStack, undoStack, nodes, edges } = get();
     const snapshot = redoStack[redoStack.length - 1];
     if (snapshot) {
-      set({
-        redoStack: redoStack.slice(0, redoStack.length - 1),
-        undoStack: [...undoStack, { nodes, edges }],
-        nodes: snapshot.nodes,
-        edges: snapshot.edges,
-      });
+      set(
+        {
+          redoStack: redoStack.slice(0, redoStack.length - 1),
+          undoStack: [...undoStack, { nodes, edges }],
+          nodes: snapshot.nodes,
+          edges: snapshot.edges,
+        },
+        undefined,
+        'redo',
+      );
     }
   },
   getUndoStack: () => get().undoStack,
