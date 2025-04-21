@@ -5,7 +5,9 @@ import { devtools } from 'zustand/middleware';
 import { initialEdges } from '../edges';
 import { initialNodes } from '../nodes';
 import { type FlowState } from '../types';
+import { defaultConfig } from '../constants';
 
+const maxHistorySize = defaultConfig.maxHistorySize;
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
 const useFlowStore = create<FlowState>()(
   devtools(
@@ -31,6 +33,7 @@ const useFlowStore = create<FlowState>()(
       },
 
       onConnect: (connection) => {
+        get().takeSnapshot(); // 在连接之前保存快照
         const edge: Edge = {
           id: [
             `e${connection.source}`,
@@ -61,6 +64,43 @@ const useFlowStore = create<FlowState>()(
       getNodes: () => get().nodes,
       getEdges: () => get().edges,
       getMultiNodesSelected: () => get().multiNodesSelected,
+
+      // Undo/Redo stacks
+      undoStack: [],
+      redoStack: [],
+      takeSnapshot: () => {
+        const { undoStack, nodes, edges } = get();
+        set({
+          undoStack: [...undoStack.slice(undoStack.length - maxHistorySize + 1, undoStack.length), { nodes, edges }],
+          redoStack: [],
+        });
+      },
+      undo: () => {
+        const { undoStack, redoStack, nodes, edges } = get();
+        const snapshot = undoStack[undoStack.length - 1];
+        if (snapshot) {
+          set({
+            undoStack: undoStack.slice(0, undoStack.length - 1),
+            redoStack: [...redoStack, { nodes, edges }],
+            nodes: snapshot.nodes,
+            edges: snapshot.edges,
+          });
+        }
+      },
+      redo: () => {
+        const { redoStack, undoStack, nodes, edges } = get();
+        const snapshot = redoStack[redoStack.length - 1];
+        if (snapshot) {
+          set({
+            redoStack: redoStack.slice(0, redoStack.length - 1),
+            undoStack: [...undoStack, { nodes, edges }],
+            nodes: snapshot.nodes,
+            edges: snapshot.edges,
+          });
+        }
+      },
+      getUndoStack: () => get().undoStack,
+      getRedoStack: () => get().redoStack,
     }),
     {
       name: 'flowStore',

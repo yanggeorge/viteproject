@@ -13,6 +13,15 @@ export type FlowState = {
   getNodes: () => FlowNode[];
   getEdges: () => Edge[];
   getMultiNodesSelected: () => boolean;
+
+  // Undo/Redo stacks
+  undoStack: Snapshot[];
+  redoStack: Snapshot[];
+  takeSnapshot: () => void;
+  undo: () => void;
+  redo: () => void;
+  getUndoStack: () => Snapshot[];
+  getRedoStack: () => Snapshot[];
 };
 
 export interface SnappingResult {

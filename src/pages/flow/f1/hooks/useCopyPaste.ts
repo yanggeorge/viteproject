@@ -22,6 +22,7 @@ const flowSelector = (state: FlowState) => ({
   getEdges: state.getEdges,
   setNodes: state.setNodes,
   setEdges: state.setEdges,
+  takeSnapshot: state.takeSnapshot,
 });
 
 // Selector for copy store state needed by the hook
@@ -34,7 +35,7 @@ const copySelector = (state: CopyState) => ({
 
 export function useCopyPaste() {
   // Get state and setters from stores
-  const { getNodes, getEdges, setNodes, setEdges } = useFlowStore(useShallow(flowSelector));
+  const { getNodes, getEdges, setNodes, setEdges, takeSnapshot } = useFlowStore(useShallow(flowSelector));
   const { copyNodes, copyEdges, setCopyNodes, setCopyEdges } = useCopyStore(useShallow(copySelector));
   const { screenToFlowPosition } = useReactFlow<Node, Edge>();
   // 鼠标位置引用
@@ -68,6 +69,7 @@ export function useCopyPaste() {
   const copy = useCallback(() => {
     const selectedNodes = getNodes().filter((node) => node.selected);
     const relatedEdges = filterRelatedEdges(selectedNodes, getEdges());
+
     setCopyNodes(selectedNodes);
     setCopyEdges(relatedEdges);
   }, [getNodes, getEdges, setCopyNodes, setCopyEdges]);
@@ -79,10 +81,11 @@ export function useCopyPaste() {
     setCopyNodes(selectedNodes);
     setCopyEdges(relatedEdges);
 
+    takeSnapshot(); // 在剪切之前保存快照
     // 删除选中的节点和边
     setNodes((nodes) => nodes.filter((node) => !node.selected));
     setEdges((edges) => edges.filter((edge) => !relatedEdges.includes(edge)));
-  }, [getNodes, getEdges, setCopyNodes, setCopyEdges, setNodes, setEdges]);
+  }, [getNodes, getEdges, setCopyNodes, setCopyEdges, takeSnapshot, setNodes, setEdges]);
 
   // 粘贴缓冲区中的节点和边
   const paste = useCallback(
@@ -119,11 +122,12 @@ export function useCopyPaste() {
         };
       });
 
+      takeSnapshot(); // 在粘贴之前保存快照
       // 添加新节点和边，并取消所有选中状态
       setNodes((nodes) => [...nodes.map((node) => ({ ...node, selected: false })), ...newNodes]);
       setEdges((edges) => [...edges.map((edge) => ({ ...edge, selected: false })), ...newEdges]);
     },
-    [screenToFlowPosition, copyNodes, copyEdges, setNodes, setEdges],
+    [screenToFlowPosition, copyNodes, copyEdges, takeSnapshot, setNodes, setEdges],
   );
 
   // 绑定快捷键
