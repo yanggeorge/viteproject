@@ -67,14 +67,22 @@ const createFlowSlice: StateCreator<FlowState, [['zustand/immer', never], ['zust
     );
   },
   setNodes: (nodes) => {
-    set((state) => ({
-      nodes: typeof nodes === 'function' ? nodes(state.nodes) : nodes,
-    }));
+    set(
+      (state) => ({
+        nodes: typeof nodes === 'function' ? nodes(state.nodes) : nodes,
+      }),
+      undefined,
+      'setNodes',
+    );
   },
   setEdges: (edges) => {
-    set((state) => ({
-      edges: typeof edges === 'function' ? edges(state.edges) : edges,
-    }));
+    set(
+      (state) => ({
+        edges: typeof edges === 'function' ? edges(state.edges) : edges,
+      }),
+      undefined,
+      'setEdges',
+    );
   },
   getNodes: () => get().nodes,
   getEdges: () => get().edges,

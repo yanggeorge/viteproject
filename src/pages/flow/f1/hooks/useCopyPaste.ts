@@ -12,7 +12,7 @@ const filterRelatedEdges = (nodes: Node[], edges: Edge[]): Edge[] => {
   return edges.filter((edge) => {
     const isSourceSelected = nodes.some((node) => node.id === edge.source);
     const isTargetSelected = nodes.some((node) => node.id === edge.target);
-    return isSourceSelected || isTargetSelected;
+    return isSourceSelected && isTargetSelected;
   });
 };
 
@@ -70,21 +70,33 @@ export function useCopyPaste() {
     const selectedNodes = getNodes().filter((node) => node.selected);
     const relatedEdges = filterRelatedEdges(selectedNodes, getEdges());
 
+    if (selectedNodes.length === 0) return;
     setCopyNodes(selectedNodes);
-    setCopyEdges(relatedEdges);
+
+    if (relatedEdges.length !== 0) {
+      setCopyEdges(relatedEdges);
+    }
   }, [getNodes, getEdges, setCopyNodes, setCopyEdges]);
 
   // 剪切选中的节点和相关边
   const cut = useCallback(() => {
     const selectedNodes = getNodes().filter((node) => node.selected);
     const relatedEdges = filterRelatedEdges(selectedNodes, getEdges());
+
+    if (selectedNodes.length === 0) return;
     setCopyNodes(selectedNodes);
-    setCopyEdges(relatedEdges);
+
+    if (relatedEdges.length !== 0) {
+      setCopyEdges(relatedEdges);
+    }
 
     takeSnapshot(); // 在剪切之前保存快照
     // 删除选中的节点和边
     setNodes((nodes) => nodes.filter((node) => !node.selected));
-    setEdges((edges) => edges.filter((edge) => !relatedEdges.includes(edge)));
+
+    if (relatedEdges.length !== 0) {
+      setEdges((edges) => edges.filter((edge) => !relatedEdges.includes(edge)));
+    }
   }, [getNodes, getEdges, setCopyNodes, setCopyEdges, takeSnapshot, setNodes, setEdges]);
 
   // 粘贴缓冲区中的节点和边
@@ -125,7 +137,9 @@ export function useCopyPaste() {
       takeSnapshot(); // 在粘贴之前保存快照
       // 添加新节点和边，并取消所有选中状态
       setNodes((nodes) => [...nodes.map((node) => ({ ...node, selected: false })), ...newNodes]);
-      setEdges((edges) => [...edges.map((edge) => ({ ...edge, selected: false })), ...newEdges]);
+      if (newEdges.length !== 0) {
+        setEdges((edges) => [...edges.map((edge) => ({ ...edge, selected: false })), ...newEdges]);
+      }
     },
     [screenToFlowPosition, copyNodes, copyEdges, takeSnapshot, setNodes, setEdges],
   );
