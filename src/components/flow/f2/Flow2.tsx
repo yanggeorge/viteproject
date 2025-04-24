@@ -1,17 +1,17 @@
-import React, { useCallback } from 'react';
 import type { GetMiniMapNodeAttribute, Node } from '@xyflow/react';
-import { ReactFlow, addEdge, MiniMap, Controls, Background, useNodesState, useEdgesState } from '@xyflow/react';
+import { addEdge, Background, Controls, MiniMap, ReactFlow, useEdgesState, useNodesState } from '@xyflow/react';
+import { useCallback } from 'react';
 
 import '@xyflow/react/dist/style.css';
 import './index.css';
 
-import { nodes as initialNodes, edges as initialEdges } from './initial-elements';
 import AnnotationNode from './AnnotationNode';
-import ToolbarNode from './ToolbarNode';
-import ResizerNode from './ResizerNode';
-import CircleNode from './CircleNode';
-import TextInputNode from './TextInputNode';
 import ButtonEdge from './ButtonEdge';
+import CircleNode from './CircleNode';
+import { edges as initialEdges, nodes as initialNodes } from './initial-elements';
+import ResizerNode from './ResizerNode';
+import TextInputNode from './TextInputNode';
+import ToolbarNode from './ToolbarNode';
 
 const nodeTypes = {
   annotation: AnnotationNode,
@@ -28,9 +28,9 @@ const edgeTypes = {
 const nodeClassName: GetMiniMapNodeAttribute<Node> = (node: Node) => node.type as string;
 
 const Flow2 = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, _, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const onConnect = useCallback((params: any) => setEdges((eds) => addEdge(params, eds)), []);
+  const onConnect = useCallback((params: any) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
 
   return (
     <div style={{ width: '800px', height: '600px' }}>
