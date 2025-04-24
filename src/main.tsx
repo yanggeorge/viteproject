@@ -1,19 +1,29 @@
+import { StyleProvider } from '@ant-design/cssinjs';
+import { RouterProvider, createRouter } from '@tanstack/react-router';
+import { ConfigProvider } from 'antd';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import App from './App.tsx';
-import { BrowserRouter } from 'react-router-dom';
-import { StyleProvider } from '@ant-design/cssinjs';
-import { ConfigProvider } from 'antd';
+
+// Import the generated route tree
+import { routeTree } from './routeTree.gen';
+
+// Create a new router instance
+const router = createRouter({ routeTree });
+
+// Register the router instance for type safety
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router;
+  }
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <StyleProvider layer>
-        <ConfigProvider>
-          <App />
-        </ConfigProvider>
-      </StyleProvider>
-    </BrowserRouter>
+    <StyleProvider layer>
+      <ConfigProvider>
+        <RouterProvider router={router} />
+      </ConfigProvider>
+    </StyleProvider>
   </StrictMode>,
 );
