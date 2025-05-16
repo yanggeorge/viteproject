@@ -1,22 +1,24 @@
-import React, { Fragment, memo, ChangeEvent } from 'react';
+import type { ChangeEvent } from 'react';
+import React, { Fragment, memo } from 'react';
+import type {
+  Node,
+  Edge,
+  ReactFlowState,
+  NodeDimensionChange,
+  NodeChange} from '@xyflow/react';
 import {
   Handle,
   useStore,
   Position,
   useReactFlow,
-  Node,
-  Edge,
-  ReactFlowState,
-  NodeDimensionChange,
-  NodeChange,
-  applyNodeChanges
+  applyNodeChanges,
 } from '@xyflow/react';
 
 // Define the specific attributes we are interested in.
 // Using a const assertion for stricter typing.
 const dimensionAttrs = ['width', 'height'] as const;
 // Define a type for the dimension attributes.
-type DimensionAttribute = typeof dimensionAttrs[number]; // 'width' | 'height'
+type DimensionAttribute = (typeof dimensionAttrs)[number]; // 'width' | 'height'
 
 // Define the expected props for the component.
 interface DimensionNodeProps {
@@ -103,7 +105,6 @@ const DimensionNode: React.FC<DimensionNodeProps> = memo(({ id }) => {
       const safeCurrentWidth = isNaN(currentWidth) ? 0 : currentWidth;
       const safeCurrentHeight = isNaN(currentHeight) ? 0 : currentHeight;
 
-
       // Calculate the new size, ensuring it respects the boundaries.
       const newSize = {
         width: attr === 'width' ? Math.min(value, maxWidth) : safeCurrentWidth,
@@ -113,28 +114,27 @@ const DimensionNode: React.FC<DimensionNodeProps> = memo(({ id }) => {
       // Create the change object for the target node.
       // Using NodeDimensionChange type for clarity.
       const dimensionChange: NodeDimensionChange = {
-          id: targetNodeId,
-          type: 'dimensions',
-          resizing: true, // Indicate resizing is happening
-          dimensions: {
-              width: newSize.width,
-              height: newSize.height,
-          },
+        id: targetNodeId,
+        type: 'dimensions',
+        resizing: true, // Indicate resizing is happening
+        dimensions: {
+          width: newSize.width,
+          height: newSize.height,
+        },
       };
 
-       // Create a style change object as well, as the original code modified style directly.
-       // Note: Modifying style directly might conflict with React Flow's internal dimension handling.
-       // It's generally better to rely on the 'dimensions' change type.
-       // Keeping the style update here to match the original logic.
-       const styleChange: NodeChange = {
-           id: targetNodeId,
-           type: 'select', // Using 'select' as a placeholder type, as there's no direct 'style' change type.
-                           // A custom change type or direct manipulation might be needed if style is the primary goal.
-                           // However, applyNodeChanges expects specific types.
-                           // A safer approach might be to map and directly modify the node object.
-           selected: targetNode.selected || false, // Preserve selection state
-       }
-
+      // Create a style change object as well, as the original code modified style directly.
+      // Note: Modifying style directly might conflict with React Flow's internal dimension handling.
+      // It's generally better to rely on the 'dimensions' change type.
+      // Keeping the style update here to match the original logic.
+      const styleChange: NodeChange = {
+        id: targetNodeId,
+        type: 'select', // Using 'select' as a placeholder type, as there's no direct 'style' change type.
+        // A custom change type or direct manipulation might be needed if style is the primary goal.
+        // However, applyNodeChanges expects specific types.
+        // A safer approach might be to map and directly modify the node object.
+        selected: targetNode.selected || false, // Preserve selection state
+      };
 
       // Apply the changes using applyNodeChanges for consistency
       // return applyNodeChanges([dimensionChange], nds); // Preferred React Flow way
@@ -147,7 +147,7 @@ const DimensionNode: React.FC<DimensionNodeProps> = memo(({ id }) => {
             ...n,
             style: {
               ...n.style,
-              width: newSize.width,   // Update style directly
+              width: newSize.width, // Update style directly
               height: newSize.height, // Update style directly
             },
             // Optionally update width/height properties if needed, though style is often preferred
@@ -157,19 +157,20 @@ const DimensionNode: React.FC<DimensionNodeProps> = memo(({ id }) => {
         }
         return n;
       });
-
     });
   };
 
   return (
     // Node container
-    <div style={{
+    <div
+      style={{
         padding: '10px',
         border: '1px solid #ccc',
         borderRadius: '5px',
         background: 'white',
-        minWidth: '150px' // Ensure minimum width for inputs
-    }}>
+        minWidth: '150px', // Ensure minimum width for inputs
+      }}
+    >
       {/* Map through dimension attributes to create label and input pairs. */}
       {dimensionAttrs.map((attr: DimensionAttribute) => (
         <Fragment key={attr}>
@@ -193,7 +194,9 @@ const DimensionNode: React.FC<DimensionNodeProps> = memo(({ id }) => {
         </Fragment>
       ))}
       {/* Display message if dimensions are not loaded/available */}
-      {!dimensions && <div style={{ marginTop: '5px', fontSize: '0.8em', color: '#888' }}>Target node not connected or found</div>}
+      {!dimensions && (
+        <div style={{ marginTop: '5px', fontSize: '0.8em', color: '#888' }}>Target node not connected or found</div>
+      )}
       {/* Target handle at the top */}
       <Handle
         type="target"
@@ -201,12 +204,8 @@ const DimensionNode: React.FC<DimensionNodeProps> = memo(({ id }) => {
         className="custom-handle" // Add styles if needed
         style={{ background: '#555' }} // Example inline style
       />
-       {/* Source handle (example) */}
-       <Handle
-        type="source"
-        position={Position.Bottom}
-        style={{ background: '#555' }}
-      />
+      {/* Source handle (example) */}
+      <Handle type="source" position={Position.Bottom} style={{ background: '#555' }} />
     </div>
   );
 });
