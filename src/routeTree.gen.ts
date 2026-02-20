@@ -10,269 +10,125 @@
 
 import { createFileRoute } from '@tanstack/react-router'
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as IndexImport } from './routes/index'
+const UpgradeFormLazyRouteImport = createFileRoute('/upgrade-form')()
+const TestToggleLazyRouteImport = createFileRoute('/test-toggle')()
+const TestStateMachineLazyRouteImport = createFileRoute('/test-state-machine')()
+const TestSlotLazyRouteImport = createFileRoute('/test-slot')()
+const TestPrimitiveLazyRouteImport = createFileRoute('/test-primitive')()
+const TestFormLazyRouteImport = createFileRoute('/test-form')()
+const TestComposeRefsLazyRouteImport = createFileRoute('/test-compose-refs')()
+const TestLazyRouteImport = createFileRoute('/test')()
+const RefExampleLazyRouteImport = createFileRoute('/ref-example')()
+const RawHtmlWithCssLazyRouteImport = createFileRoute('/raw-html-with-css')()
+const OverflowLazyRouteImport = createFileRoute('/overflow')()
+const NavigationLazyRouteImport = createFileRoute('/navigation')()
+const Layout1LazyRouteImport = createFileRoute('/layout1')()
+const IndexPageLazyRouteImport = createFileRoute('/index-page')()
+const Flow2LazyRouteImport = createFileRoute('/flow2')()
+const Flow1LazyRouteImport = createFileRoute('/flow1')()
+const AboutLazyRouteImport = createFileRoute('/about')()
 
-// Create Virtual Routes
-
-const UpgradeFormLazyImport = createFileRoute('/upgrade-form')()
-const TestToggleLazyImport = createFileRoute('/test-toggle')()
-const TestStateMachineLazyImport = createFileRoute('/test-state-machine')()
-const TestSlotLazyImport = createFileRoute('/test-slot')()
-const TestPrimitiveLazyImport = createFileRoute('/test-primitive')()
-const TestFormLazyImport = createFileRoute('/test-form')()
-const TestComposeRefsLazyImport = createFileRoute('/test-compose-refs')()
-const TestLazyImport = createFileRoute('/test')()
-const RawHtmlWithCssLazyImport = createFileRoute('/raw-html-with-css')()
-const OverflowLazyImport = createFileRoute('/overflow')()
-const NavigationLazyImport = createFileRoute('/navigation')()
-const Layout1LazyImport = createFileRoute('/layout1')()
-const IndexPageLazyImport = createFileRoute('/index-page')()
-const Flow2LazyImport = createFileRoute('/flow2')()
-const Flow1LazyImport = createFileRoute('/flow1')()
-const AboutLazyImport = createFileRoute('/about')()
-
-// Create/Update Routes
-
-const UpgradeFormLazyRoute = UpgradeFormLazyImport.update({
+const UpgradeFormLazyRoute = UpgradeFormLazyRouteImport.update({
   id: '/upgrade-form',
   path: '/upgrade-form',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/upgrade-form.lazy').then((d) => d.Route))
-
-const TestToggleLazyRoute = TestToggleLazyImport.update({
+const TestToggleLazyRoute = TestToggleLazyRouteImport.update({
   id: '/test-toggle',
   path: '/test-toggle',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/test-toggle.lazy').then((d) => d.Route))
-
-const TestStateMachineLazyRoute = TestStateMachineLazyImport.update({
+const TestStateMachineLazyRoute = TestStateMachineLazyRouteImport.update({
   id: '/test-state-machine',
   path: '/test-state-machine',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() =>
   import('./routes/test-state-machine.lazy').then((d) => d.Route),
 )
-
-const TestSlotLazyRoute = TestSlotLazyImport.update({
+const TestSlotLazyRoute = TestSlotLazyRouteImport.update({
   id: '/test-slot',
   path: '/test-slot',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/test-slot.lazy').then((d) => d.Route))
-
-const TestPrimitiveLazyRoute = TestPrimitiveLazyImport.update({
+const TestPrimitiveLazyRoute = TestPrimitiveLazyRouteImport.update({
   id: '/test-primitive',
   path: '/test-primitive',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() =>
   import('./routes/test-primitive.lazy').then((d) => d.Route),
 )
-
-const TestFormLazyRoute = TestFormLazyImport.update({
+const TestFormLazyRoute = TestFormLazyRouteImport.update({
   id: '/test-form',
   path: '/test-form',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/test-form.lazy').then((d) => d.Route))
-
-const TestComposeRefsLazyRoute = TestComposeRefsLazyImport.update({
+const TestComposeRefsLazyRoute = TestComposeRefsLazyRouteImport.update({
   id: '/test-compose-refs',
   path: '/test-compose-refs',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() =>
   import('./routes/test-compose-refs.lazy').then((d) => d.Route),
 )
-
-const TestLazyRoute = TestLazyImport.update({
+const TestLazyRoute = TestLazyRouteImport.update({
   id: '/test',
   path: '/test',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/test.lazy').then((d) => d.Route))
-
-const RawHtmlWithCssLazyRoute = RawHtmlWithCssLazyImport.update({
+const RefExampleLazyRoute = RefExampleLazyRouteImport.update({
+  id: '/ref-example',
+  path: '/ref-example',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/ref-example.lazy').then((d) => d.Route))
+const RawHtmlWithCssLazyRoute = RawHtmlWithCssLazyRouteImport.update({
   id: '/raw-html-with-css',
   path: '/raw-html-with-css',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() =>
   import('./routes/raw-html-with-css.lazy').then((d) => d.Route),
 )
-
-const OverflowLazyRoute = OverflowLazyImport.update({
+const OverflowLazyRoute = OverflowLazyRouteImport.update({
   id: '/overflow',
   path: '/overflow',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/overflow.lazy').then((d) => d.Route))
-
-const NavigationLazyRoute = NavigationLazyImport.update({
+const NavigationLazyRoute = NavigationLazyRouteImport.update({
   id: '/navigation',
   path: '/navigation',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/navigation.lazy').then((d) => d.Route))
-
-const Layout1LazyRoute = Layout1LazyImport.update({
+const Layout1LazyRoute = Layout1LazyRouteImport.update({
   id: '/layout1',
   path: '/layout1',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/layout1.lazy').then((d) => d.Route))
-
-const IndexPageLazyRoute = IndexPageLazyImport.update({
+const IndexPageLazyRoute = IndexPageLazyRouteImport.update({
   id: '/index-page',
   path: '/index-page',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/index-page.lazy').then((d) => d.Route))
-
-const Flow2LazyRoute = Flow2LazyImport.update({
+const Flow2LazyRoute = Flow2LazyRouteImport.update({
   id: '/flow2',
   path: '/flow2',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/flow2.lazy').then((d) => d.Route))
-
-const Flow1LazyRoute = Flow1LazyImport.update({
+const Flow1LazyRoute = Flow1LazyRouteImport.update({
   id: '/flow1',
   path: '/flow1',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/flow1.lazy').then((d) => d.Route))
-
-const AboutLazyRoute = AboutLazyImport.update({
+const AboutLazyRoute = AboutLazyRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
-
-const IndexRoute = IndexImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-// Populate the FileRoutesByPath interface
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/flow1': {
-      id: '/flow1'
-      path: '/flow1'
-      fullPath: '/flow1'
-      preLoaderRoute: typeof Flow1LazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/flow2': {
-      id: '/flow2'
-      path: '/flow2'
-      fullPath: '/flow2'
-      preLoaderRoute: typeof Flow2LazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/index-page': {
-      id: '/index-page'
-      path: '/index-page'
-      fullPath: '/index-page'
-      preLoaderRoute: typeof IndexPageLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/layout1': {
-      id: '/layout1'
-      path: '/layout1'
-      fullPath: '/layout1'
-      preLoaderRoute: typeof Layout1LazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/navigation': {
-      id: '/navigation'
-      path: '/navigation'
-      fullPath: '/navigation'
-      preLoaderRoute: typeof NavigationLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/overflow': {
-      id: '/overflow'
-      path: '/overflow'
-      fullPath: '/overflow'
-      preLoaderRoute: typeof OverflowLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/raw-html-with-css': {
-      id: '/raw-html-with-css'
-      path: '/raw-html-with-css'
-      fullPath: '/raw-html-with-css'
-      preLoaderRoute: typeof RawHtmlWithCssLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/test': {
-      id: '/test'
-      path: '/test'
-      fullPath: '/test'
-      preLoaderRoute: typeof TestLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/test-compose-refs': {
-      id: '/test-compose-refs'
-      path: '/test-compose-refs'
-      fullPath: '/test-compose-refs'
-      preLoaderRoute: typeof TestComposeRefsLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/test-form': {
-      id: '/test-form'
-      path: '/test-form'
-      fullPath: '/test-form'
-      preLoaderRoute: typeof TestFormLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/test-primitive': {
-      id: '/test-primitive'
-      path: '/test-primitive'
-      fullPath: '/test-primitive'
-      preLoaderRoute: typeof TestPrimitiveLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/test-slot': {
-      id: '/test-slot'
-      path: '/test-slot'
-      fullPath: '/test-slot'
-      preLoaderRoute: typeof TestSlotLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/test-state-machine': {
-      id: '/test-state-machine'
-      path: '/test-state-machine'
-      fullPath: '/test-state-machine'
-      preLoaderRoute: typeof TestStateMachineLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/test-toggle': {
-      id: '/test-toggle'
-      path: '/test-toggle'
-      fullPath: '/test-toggle'
-      preLoaderRoute: typeof TestToggleLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/upgrade-form': {
-      id: '/upgrade-form'
-      path: '/upgrade-form'
-      fullPath: '/upgrade-form'
-      preLoaderRoute: typeof UpgradeFormLazyImport
-      parentRoute: typeof rootRoute
-    }
-  }
-}
-
-// Create and export the route tree
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -284,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/navigation': typeof NavigationLazyRoute
   '/overflow': typeof OverflowLazyRoute
   '/raw-html-with-css': typeof RawHtmlWithCssLazyRoute
+  '/ref-example': typeof RefExampleLazyRoute
   '/test': typeof TestLazyRoute
   '/test-compose-refs': typeof TestComposeRefsLazyRoute
   '/test-form': typeof TestFormLazyRoute
@@ -293,7 +150,6 @@ export interface FileRoutesByFullPath {
   '/test-toggle': typeof TestToggleLazyRoute
   '/upgrade-form': typeof UpgradeFormLazyRoute
 }
-
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutLazyRoute
@@ -304,6 +160,7 @@ export interface FileRoutesByTo {
   '/navigation': typeof NavigationLazyRoute
   '/overflow': typeof OverflowLazyRoute
   '/raw-html-with-css': typeof RawHtmlWithCssLazyRoute
+  '/ref-example': typeof RefExampleLazyRoute
   '/test': typeof TestLazyRoute
   '/test-compose-refs': typeof TestComposeRefsLazyRoute
   '/test-form': typeof TestFormLazyRoute
@@ -313,9 +170,8 @@ export interface FileRoutesByTo {
   '/test-toggle': typeof TestToggleLazyRoute
   '/upgrade-form': typeof UpgradeFormLazyRoute
 }
-
 export interface FileRoutesById {
-  __root__: typeof rootRoute
+  __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutLazyRoute
   '/flow1': typeof Flow1LazyRoute
@@ -325,6 +181,7 @@ export interface FileRoutesById {
   '/navigation': typeof NavigationLazyRoute
   '/overflow': typeof OverflowLazyRoute
   '/raw-html-with-css': typeof RawHtmlWithCssLazyRoute
+  '/ref-example': typeof RefExampleLazyRoute
   '/test': typeof TestLazyRoute
   '/test-compose-refs': typeof TestComposeRefsLazyRoute
   '/test-form': typeof TestFormLazyRoute
@@ -334,7 +191,6 @@ export interface FileRoutesById {
   '/test-toggle': typeof TestToggleLazyRoute
   '/upgrade-form': typeof UpgradeFormLazyRoute
 }
-
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
@@ -347,6 +203,7 @@ export interface FileRouteTypes {
     | '/navigation'
     | '/overflow'
     | '/raw-html-with-css'
+    | '/ref-example'
     | '/test'
     | '/test-compose-refs'
     | '/test-form'
@@ -366,6 +223,7 @@ export interface FileRouteTypes {
     | '/navigation'
     | '/overflow'
     | '/raw-html-with-css'
+    | '/ref-example'
     | '/test'
     | '/test-compose-refs'
     | '/test-form'
@@ -385,6 +243,7 @@ export interface FileRouteTypes {
     | '/navigation'
     | '/overflow'
     | '/raw-html-with-css'
+    | '/ref-example'
     | '/test'
     | '/test-compose-refs'
     | '/test-form'
@@ -395,7 +254,6 @@ export interface FileRouteTypes {
     | '/upgrade-form'
   fileRoutesById: FileRoutesById
 }
-
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutLazyRoute: typeof AboutLazyRoute
@@ -406,6 +264,7 @@ export interface RootRouteChildren {
   NavigationLazyRoute: typeof NavigationLazyRoute
   OverflowLazyRoute: typeof OverflowLazyRoute
   RawHtmlWithCssLazyRoute: typeof RawHtmlWithCssLazyRoute
+  RefExampleLazyRoute: typeof RefExampleLazyRoute
   TestLazyRoute: typeof TestLazyRoute
   TestComposeRefsLazyRoute: typeof TestComposeRefsLazyRoute
   TestFormLazyRoute: typeof TestFormLazyRoute
@@ -414,6 +273,137 @@ export interface RootRouteChildren {
   TestStateMachineLazyRoute: typeof TestStateMachineLazyRoute
   TestToggleLazyRoute: typeof TestToggleLazyRoute
   UpgradeFormLazyRoute: typeof UpgradeFormLazyRoute
+}
+
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/upgrade-form': {
+      id: '/upgrade-form'
+      path: '/upgrade-form'
+      fullPath: '/upgrade-form'
+      preLoaderRoute: typeof UpgradeFormLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test-toggle': {
+      id: '/test-toggle'
+      path: '/test-toggle'
+      fullPath: '/test-toggle'
+      preLoaderRoute: typeof TestToggleLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test-state-machine': {
+      id: '/test-state-machine'
+      path: '/test-state-machine'
+      fullPath: '/test-state-machine'
+      preLoaderRoute: typeof TestStateMachineLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test-slot': {
+      id: '/test-slot'
+      path: '/test-slot'
+      fullPath: '/test-slot'
+      preLoaderRoute: typeof TestSlotLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test-primitive': {
+      id: '/test-primitive'
+      path: '/test-primitive'
+      fullPath: '/test-primitive'
+      preLoaderRoute: typeof TestPrimitiveLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test-form': {
+      id: '/test-form'
+      path: '/test-form'
+      fullPath: '/test-form'
+      preLoaderRoute: typeof TestFormLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test-compose-refs': {
+      id: '/test-compose-refs'
+      path: '/test-compose-refs'
+      fullPath: '/test-compose-refs'
+      preLoaderRoute: typeof TestComposeRefsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test': {
+      id: '/test'
+      path: '/test'
+      fullPath: '/test'
+      preLoaderRoute: typeof TestLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ref-example': {
+      id: '/ref-example'
+      path: '/ref-example'
+      fullPath: '/ref-example'
+      preLoaderRoute: typeof RefExampleLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/raw-html-with-css': {
+      id: '/raw-html-with-css'
+      path: '/raw-html-with-css'
+      fullPath: '/raw-html-with-css'
+      preLoaderRoute: typeof RawHtmlWithCssLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/overflow': {
+      id: '/overflow'
+      path: '/overflow'
+      fullPath: '/overflow'
+      preLoaderRoute: typeof OverflowLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/navigation': {
+      id: '/navigation'
+      path: '/navigation'
+      fullPath: '/navigation'
+      preLoaderRoute: typeof NavigationLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/layout1': {
+      id: '/layout1'
+      path: '/layout1'
+      fullPath: '/layout1'
+      preLoaderRoute: typeof Layout1LazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/index-page': {
+      id: '/index-page'
+      path: '/index-page'
+      fullPath: '/index-page'
+      preLoaderRoute: typeof IndexPageLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flow2': {
+      id: '/flow2'
+      path: '/flow2'
+      fullPath: '/flow2'
+      preLoaderRoute: typeof Flow2LazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flow1': {
+      id: '/flow1'
+      path: '/flow1'
+      fullPath: '/flow1'
+      preLoaderRoute: typeof Flow1LazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -426,6 +416,7 @@ const rootRouteChildren: RootRouteChildren = {
   NavigationLazyRoute: NavigationLazyRoute,
   OverflowLazyRoute: OverflowLazyRoute,
   RawHtmlWithCssLazyRoute: RawHtmlWithCssLazyRoute,
+  RefExampleLazyRoute: RefExampleLazyRoute,
   TestLazyRoute: TestLazyRoute,
   TestComposeRefsLazyRoute: TestComposeRefsLazyRoute,
   TestFormLazyRoute: TestFormLazyRoute,
@@ -435,87 +426,6 @@ const rootRouteChildren: RootRouteChildren = {
   TestToggleLazyRoute: TestToggleLazyRoute,
   UpgradeFormLazyRoute: UpgradeFormLazyRoute,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/",
-        "/about",
-        "/flow1",
-        "/flow2",
-        "/index-page",
-        "/layout1",
-        "/navigation",
-        "/overflow",
-        "/raw-html-with-css",
-        "/test",
-        "/test-compose-refs",
-        "/test-form",
-        "/test-primitive",
-        "/test-slot",
-        "/test-state-machine",
-        "/test-toggle",
-        "/upgrade-form"
-      ]
-    },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/about": {
-      "filePath": "about.lazy.tsx"
-    },
-    "/flow1": {
-      "filePath": "flow1.lazy.tsx"
-    },
-    "/flow2": {
-      "filePath": "flow2.lazy.tsx"
-    },
-    "/index-page": {
-      "filePath": "index-page.lazy.tsx"
-    },
-    "/layout1": {
-      "filePath": "layout1.lazy.tsx"
-    },
-    "/navigation": {
-      "filePath": "navigation.lazy.tsx"
-    },
-    "/overflow": {
-      "filePath": "overflow.lazy.tsx"
-    },
-    "/raw-html-with-css": {
-      "filePath": "raw-html-with-css.lazy.tsx"
-    },
-    "/test": {
-      "filePath": "test.lazy.tsx"
-    },
-    "/test-compose-refs": {
-      "filePath": "test-compose-refs.lazy.tsx"
-    },
-    "/test-form": {
-      "filePath": "test-form.lazy.tsx"
-    },
-    "/test-primitive": {
-      "filePath": "test-primitive.lazy.tsx"
-    },
-    "/test-slot": {
-      "filePath": "test-slot.lazy.tsx"
-    },
-    "/test-state-machine": {
-      "filePath": "test-state-machine.lazy.tsx"
-    },
-    "/test-toggle": {
-      "filePath": "test-toggle.lazy.tsx"
-    },
-    "/upgrade-form": {
-      "filePath": "upgrade-form.lazy.tsx"
-    }
-  }
-}
-ROUTE_MANIFEST_END */

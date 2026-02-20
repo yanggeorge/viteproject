@@ -51,6 +51,9 @@ export function Home() {
         <li>
           <Link to="/overflow">overflow</Link>
         </li>
+        <li>
+          <Link to="/ref-example">ref-example</Link>
+        </li>
       </ul>
     </div>
   );
